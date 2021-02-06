@@ -39,21 +39,65 @@ func (l *luaState) Replace(idx int) {
 }
 
 //TODO: wait rotate to be implemented
-func (l *luaState) Insert() {
-
+func (l *luaState) Insert(idx int) {
+	l.Rotate(idx, 1)
 }
 
 //TODO: wait rotate to be implemented
-func (l *luaState) Remove() {
-
+func (l *luaState) Remove(idx int) {
+	l.Rotate(idx, -1)
+	l.Pop(1)
 }
 
+//TODO: 证明其正确性
 func (l *luaState) Rotate(idx, n int) {
-	//
-	//t := l.stack.top - 1
-	//i := l.stack.absIndex(idx) - 1
+
+	t := l.stack.top - 1
+	i := l.stack.absIndex(idx) - 1
+	var m int
+	if n >= 0 {
+		m = t - n
+	} else {
+		m = i - n - 1
+	}
+	l.stack.reverse(i, m)
+	l.stack.reverse(m+1, t)
+	l.stack.reverse(i, t)
 }
 
 func (l *luaState) SetTop(idx int) {
+	newTop := l.stack.absIndex(idx)
+	if newTop < 0 {
+		panic("stack underflow")
+	}
+	n := l.stack.top - newTop
+	if n > 0 {
+		for i := 0; i < n; i++ {
+			l.stack.pop()
+		}
+	} else {
+		for i := 0; i > n; i-- {
+			l.stack.push(nil)
+		}
+	}
+}
 
+func (l *luaState) PushNil() {
+	l.stack.push(nil)
+}
+
+func (l *luaState) PushBoolean(b bool) {
+	l.stack.push(b)
+}
+
+func (l *luaState) PushInteger(n int64) {
+	l.stack.push(n)
+}
+
+func (l *luaState) PushNumber(n float64) {
+	l.stack.push(n)
+}
+
+func (l *luaState) PushString(s string) {
+	l.stack.push(s)
 }
