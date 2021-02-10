@@ -18,12 +18,12 @@ const (
 	LUA_OPSUB         // -
 	LUA_OPMUL         // *
 	LUA_OPMOD         // %
-	LUA_OPOW          // ^
+	LUA_OPPOW         // ^
 	LUA_OPDIV         // /
 	LUA_OPIDIV        // //
 	LUA_OPBAND        // &
 	LUA_OPBOR         // |
-	LUA_OPXOR         // ~
+	LUA_OPBXOR        // ~
 	LUA_OPSHL         // <<
 	LUA_OPSHR         // >>
 	LUA_OPUNM         // - (unary minus)
